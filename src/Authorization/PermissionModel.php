@@ -1,8 +1,8 @@
 <?php namespace Myth\Auth\Authorization;
 
+use CodeIgniter\Database\BaseResult;
+use CodeIgniter\Database\Query;
 use CodeIgniter\Model;
-use BaseResult;
-use Query;
 
 class PermissionModel extends Model
 {
@@ -23,8 +23,8 @@ class PermissionModel extends Model
      * Checks to see if a user, or one of their groups,
      * has a specific permission.
      *
-     * @param $userId
-     * @param $permissionId
+     * @param int $userId
+     * @param int $permissionId
      *
      * @return bool
      */
@@ -99,7 +99,7 @@ class PermissionModel extends Model
      */
     public function getPermissionsForUser(int $userId): array
     {
-        if (! $found = cache("{$userId}_permissions"))
+        if (null === $found = cache("{$userId}_permissions"))
         {
             $fromUser = $this->db->table('auth_users_permissions')
                 ->select('id, auth_permissions.name')
